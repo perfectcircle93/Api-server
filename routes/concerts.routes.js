@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-const uuidv4 = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 
 router.route('/concerts').get((req, res) => {
   res.json(db.concerts);
