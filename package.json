@@ -11,11 +11,11 @@
     "uuid": "^8.3.0",
     "uuidv4": "^6.2.3"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
   }
 }
