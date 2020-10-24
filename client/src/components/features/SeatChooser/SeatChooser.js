@@ -45,12 +45,14 @@ class SeatChooser extends React.Component {
 
   render() {
 
+    const { allSeats } = this.state;
     const { prepareSeat } = this;
     const { requests } = this.props;
 
     return (
       <div>
         <h3>Pick a seat</h3>
+        { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].success) ? <p>Free seats: {`${this.getFreeSeats()}/${allSeats}`}</p> : '' }
         <small id="pickHelp" className="form-text text-muted ml-2"><Button color="secondary" /> – seat is already taken</small>
         <small id="pickHelpTwo" className="form-text text-muted ml-2 mb-4"><Button outline color="primary" /> – it's empty</small>
         { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].success) && <div className="seats">{[...Array(50)].map((x, i) => prepareSeat(i+1) )}</div>}
