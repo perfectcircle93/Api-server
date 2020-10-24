@@ -4,6 +4,10 @@ import io from 'socket.io-client';
 import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
+
+  state = {
+    allSeats: 50,
+  };
   
   componentDidMount() {
     const { loadSeats, loadSeatsData } = this.props;
@@ -12,6 +16,16 @@ class SeatChooser extends React.Component {
 
     loadSeats();
     this.socket.on('seatsUpdated', (seats) => { loadSeatsData(seats)});
+    }
+
+    getFreeSeats = () => {
+      const { seats, chosenDay } = this.props;
+      const { allSeats } = this.state;
+      const takenSeats = seats.filter(seat => {return seat.day === chosenDay});
+
+      let freeSeats = allSeats - takenSeats.length;
+
+      return freeSeats;
     }
 
   isTaken = (seatId) => {
