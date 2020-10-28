@@ -12,13 +12,13 @@ class SeatChooser extends React.Component {
   componentDidMount() {
     const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
-    this.socket = io.connect(process.env.ENV_NODE === 'production' ? '' : '//localhost:8000');
+    this.socket = io.connect(process.env.ENV_NODE === 'production' ? '' : 'localhost:8000');
     this.socket.on('seatsUpdated', (seats) => { loadSeatsData(seats)});
     }
 
-    /*componentWillUnmount() {
+    componentWillUnmount() {
       clearInterval(this.interval);
-    }*/
+    }
 
     getFreeSeats = () => {
       const { seats, chosenDay } = this.props;
