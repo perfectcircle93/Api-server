@@ -14,10 +14,12 @@ exports.getById = async (req, res) => {
 
     try {
       const concert = await Concert.findById(req.params.id);
-      if(!concert) res.status(404).json({ message: 'Not found' });
-      else res.json(concert);
-    }
-    catch(err) {
+      if(!concert)  {
+        res.status(404).json({ message: 'Not found' });
+    } else {
+        res.json(concert);
+      } 
+    } catch(err) {
       res.status(500).json({ message: err });
     }
 
@@ -57,27 +59,27 @@ exports.edit = async (req, res) => {
         concert.day = day, 
         await concert.save();
         res.json({ concert });
-      }
-      else res.status(404).json({ message: 'Not found...' });
-    }
-    catch(err) {
-      res.status(500).json({ message: err });
-    }
+      } else {
+            res.status(404).json({ message: 'Not found...' });
+        }
+      } catch(err) {
+            res.status(500).json({ message: err });
+        }
 
-};
+    };
 
 exports.deleteById = async (req, res) => {
 
-  try {
-    const concert = await(Concert.findById(req.params.id));
-    if(concert) {
-      await Concert.deleteOne({ _id: req.params.id });
-      res.json(concert);
-    }
-    else res.status(404).json({ message: 'Not found...' });
-  }
-  catch(err) {
-    res.status(500).json({ message: err });
-  }
+    try {
+        const concert = await(Concert.findById(req.params.id));
+        if(concert) {
+        await Concert.deleteOne({ _id: req.params.id });
+        res.json(concert);
+        } else {
+            res.status(404).json({ message: 'Not found...' });
+        }
+        } catch(err) {
+            res.status(500).json({ message: err });
+        }
 
-}; 
+    }; 
