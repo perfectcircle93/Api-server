@@ -55,6 +55,21 @@ exports.getGenre = async (req, res) => {
   }
 };
 
+exports.getPrice = async (req, res) => {
+  try {
+    const concerts = await Concert.find({ price: {$gte: req.params.price_min, $lte: req.params.price_max} });
+    if(!concerts.length) {
+      res.status(404).json({ message: 'Not found' });
+    }
+    else {
+      res.json(concerts);
+    }
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 exports.getDay = async (req, res) => {
   try {
     const concerts = await Concert.find({ day: req.params.day });
@@ -70,20 +85,7 @@ exports.getDay = async (req, res) => {
   }
 };
 
-exports.getPrice = async (req, res) => {
-  try {
-    const concerts = await Concert.find({ price: {$gte: req.params.price_min, $lte: req.params.price_max} });
-    if(!concerts.length) {
-      res.status(404).json({ message: 'Not found' });
-    }
-    else {
-      res.json(concerts);
-    }
-  }
-  catch(err) {
-    res.status(500).json({ message: err });
-  }
-};
+
 
 exports.postNew = async (req, res) => {
 
