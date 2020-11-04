@@ -11,7 +11,7 @@
     "dotenv": "^8.2.0",
     "express": "4.17.1",
     "express-router": "0.0.1",
-    "mocha": "6.2.1",
+    "mocha": "8.2.0",
     "mongo-sanitize": "1.0.1",
     "mongodb-memory-server": "^6.9.2",
     "mongoose": "^5.10.10",
@@ -24,7 +24,10 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "SET NODE_ENV=test&& mocha \"./test/**/*.test.js\"",
+    "test": "snyk test && SET NODE_ENV=test&& mocha \"./test/**/*.test.js\"",
     "test:watch": "SET NODE_ENV=test&& onchange \"./**/*.js\" -i -k -- yarn run test"
+  },
+  "devDependencies": {
+    "snyk": "^1.424.2"
   }
 }
