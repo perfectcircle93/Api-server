@@ -23,7 +23,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "mocha \"./test/**/*.test.js\"",
-    "test:watch": "onchange \"./**/*.js\" -i -k -- yarn run test"
+    "test": "SET NODE_ENV=test&& mocha \"./test/**/*.test.js\"",
+    "test:watch": "SET NODE_ENV=test&& onchange \"./**/*.js\" -i -k -- yarn run test"
   }
 }

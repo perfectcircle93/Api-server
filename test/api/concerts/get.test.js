@@ -2,8 +2,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../server.js');
 const Concert = require('../../../models/concert.model.js');
-const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
-const mongoose = require('mongoose');
 
 chai.use(chaiHttp);
 
@@ -12,14 +10,10 @@ const request = chai.request;
 
 describe('GET /api/concerts', () => {
 
-  before(async () => {
+  beforeEach(async () => {
 
     try {
-      const fakeDB = new MongoMemoryServer();
-  
-      const uri = await fakeDB.getConnectionString();
-  
-      mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      /**/
 
       const testConcOne = new Concert({"performer":"John Doe","genre":"Rock","price":25,"day":1,"image":"/img/uploads/1fsd324fsdg.jpg"});
       await testConcOne.save();
@@ -29,11 +23,11 @@ describe('GET /api/concerts', () => {
 
       const testConcThree = new Concert({"performer":"Maybell Haley","genre":"Pop","price":40,"day":2,"image":"/img/uploads/hdfh42sd213.jpg"});
       await testConcThree.save();
-  
+
     } catch(err) {
       console.log(err);
     }
-  
+
 });
 
   it('/should return concerts of selected performer', async () => {
@@ -64,5 +58,9 @@ describe('GET /api/concerts', () => {
     expect(res.body).to.not.be.null;
     expect(res.body.length).to.be.equal(2);
   });
+
+  afterEach(async () => {
+    await Concert.deleteMany();
+  })
 
 });

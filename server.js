@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
 
 const app = express();
 
@@ -34,16 +35,26 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
 });
 
-(process.env.NODE_ENV === 'production')
-? mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0-wufx8.azure.mongodb.net/NewWaveDB?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
-: mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true, useUnifiedTopology: true});
+let uri = '';
 
-const db = mongoose.connection;
+async function connectDB() {
+  if(process.env.NODE_ENV === 'production') uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0-wufx8.azure.mongodb.net/NewWaveDB?retryWrites=true&w=majority`;
+  else if(process.env.NODE_ENV === 'test') {
+    const fakeDB = new MongoMemoryServer();
+    uri = await fakeDB.getConnectionString();
+  }
+  else uri = 'mongodb://localhost:27017/NewWaveDB';
 
-db.once('open', () => {
-  console.log('Connected to the database');
-});
-db.on('error', err => console.log('Error ' + err));
+  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  const db = mongoose.connection;
+
+  db.once('open', () => {
+    console.log('Connected to the database');
+  });
+  db.on('error', err => console.log('Error ' + err));
+}
+
+connectDB();
 
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
@@ -56,5 +67,3 @@ const io = socket(server);
 io.on('connection', () => {
   console.log('New socket!')
 });
-
-
