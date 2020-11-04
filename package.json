@@ -11,6 +11,7 @@
     "dotenv": "^8.2.0",
     "express": "4.17.1",
     "express-router": "0.0.1",
+    "helmet": "3.21.1",
     "mocha": "8.2.0",
     "mongo-sanitize": "1.0.1",
     "mongodb-memory-server": "^6.9.2",
