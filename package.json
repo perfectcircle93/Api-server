@@ -12,6 +12,7 @@
     "express": "4.17.1",
     "express-router": "0.0.1",
     "mocha": "6.2.1",
+    "mongo-sanitize": "1.0.1",
     "mongodb-memory-server": "^6.9.2",
     "mongoose": "^5.10.10",
     "nodemon": "^2.0.6",
